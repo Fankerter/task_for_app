@@ -15,3 +15,5 @@ class TaskCreateSchema(BaseModel):
 class TaskUpdateSchema(BaseModel):
     title: str | None = None
     completed: bool | None = None
+
+
