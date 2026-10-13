@@ -1,4 +1,9 @@
+import os
 from dataclasses import dataclass
+from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 
 @dataclass(frozen=True)
@@ -9,6 +14,8 @@ class Settings:
 
 def get_settings() -> Settings:
     return Settings(
-        database_url = "postgresql+psycopg://postgres:admin@127.0.0.1:5432/postgres",
-        cors_origins=["http://localhost:3000"]
-    ) 
+        database_url=os.getenv("DATABASE_URL"),
+        cors_origins=os.getenv("CORS_ORIGINS").split(",")
+    )
+
+
