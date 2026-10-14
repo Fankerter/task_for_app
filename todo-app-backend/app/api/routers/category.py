@@ -5,21 +5,21 @@ from app.schemas.category import CategorySchema, CategoryCreateSchema, CategoryU
 from app.services.category import CategoryNotFound, CategoryService
 
 
-router2 = APIRouter(prefix="/categories")
+router = APIRouter(prefix="/categories")
 
 
-@router2.get("")
+@router.get("")
 def read_categories(category_service: CategoryService = Depends(get_category_service)) -> list[CategorySchema]:
     return category_service.list_categories()
 
-@router2.post("", status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED)
 def create_category(
     payload: CategoryCreateSchema,
     category_service: CategoryService = Depends(get_category_service)
 ) -> CategorySchema:
     return category_service.create_category(category_create=payload)
 
-@router2.patch("/{category_id}")
+@router.patch("/{category_id}")
 def update_category(
     category_id: str,
     payload: CategoryUpdateSchema,
@@ -30,7 +30,7 @@ def update_category(
     except CategoryNotFound:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-@router2.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_category(category_id : str, category_service: CategoryService = Depends(get_category_service)) -> None:
     try:
         return category_service.delete_category(category_id=category_id)
